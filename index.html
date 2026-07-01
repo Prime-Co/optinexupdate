@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optinex – Optimize Your Wealth</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --blue-deep:    #001a40;
+      --blue-mid:     #0047ab;
+      --blue-brand:   #0077e6;
+      --blue-light:   #29a8ff;
+      --blue-glow:    #7fd4ff;
+      --gold:         #c8932a;
+      --gold-warm:    #f0b429;
+      --gold-bright:  #ffd166;
+      --white:        #ffffff;
+      --off-white:    #e8f4ff;
+      --muted:        #94b8d8;
+      --bg-dark:      #00112b;
+      --bg-darker:    #000d1f;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-dark);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(0, 17, 43, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 119, 230, 0.2);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-brand img { height: 38px; object-fit: contain; }
+
+    .nav-brand span {
+      font-size: 1.4rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      color: var(--off-white);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--blue-glow); }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--blue-brand), var(--blue-light));
+      color: var(--white) !important;
+      padding: 10px 26px;
+      border-radius: 50px;
+      font-weight: 700 !important;
+      transition: transform 0.2s, box-shadow 0.2s !important;
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,119,230,0.4);
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,119,230,0.6) !important;
+    }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      margin-left: 12px;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: var(--off-white);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 999;
+      background: rgba(0, 13, 31, 0.98);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      padding: 100px 24px 48px;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      color: var(--off-white);
+      text-decoration: none;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--blue-glow); }
+
+    .mobile-menu .mobile-cta {
+      background: linear-gradient(135deg, var(--blue-brand), var(--blue-light));
+      color: var(--white) !important;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      margin-top: 8px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('images/optinexBG.jpg') center center / cover no-repeat;
+      transform: scale(1.04);
+      transition: transform 8s ease;
+    }
+
+    .hero:hover .hero-bg { transform: scale(1); }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,17,43,0.6) 0%,
+        rgba(0,17,43,0.75) 50%,
+        rgba(0,17,43,0.95) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(0,119,230,0.2);
+      border: 1px solid rgba(41,168,255,0.4);
+      color: var(--blue-glow);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 7px 22px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 5.4rem);
+      font-weight: 900;
+      line-height: 1.08;
+      color: var(--white);
+      margin-bottom: 22px;
+    }
+
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      line-height: 1.75;
+      color: var(--off-white);
+      opacity: 0.9;
+    }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--blue-brand), var(--blue-light));
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 30px rgba(0,119,230,0.5);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 42px rgba(0,119,230,0.65);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 34px;
+      border-radius: 50px;
+      border: 1.5px solid rgba(41,168,255,0.5);
+      color: var(--blue-glow);
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.25s, border-color 0.25s, transform 0.25s;
+    }
+
+    .btn-outline:hover {
+      background: rgba(0,119,230,0.15);
+      border-color: var(--blue-light);
+      transform: translateY(-3px);
+    }
+
+    /* ── ABOUT SECTION ── */
+    .about-section {
+      padding: 100px 48px;
+      background: linear-gradient(180deg, var(--bg-dark) 0%, #001529 100%);
+    }
+
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .about-image {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(0,119,230,0.25);
+    }
+
+    .about-image img {
+      width: 100%;
+      display: block;
+    }
+
+    .about-text .eyebrow {
+      display: inline-block;
+      color: var(--gold-bright);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .about-text h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .about-text h2 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .about-text a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      color: var(--gold-bright);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: gap 0.2s;
+    }
+
+    .about-text a:hover { gap: 14px; }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title .eyebrow {
+      display: inline-block;
+      color: var(--blue-glow);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+    }
+
+    .section-title h2 span {
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-title p {
+      max-width: 520px;
+      margin: 14px auto 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    /* ── FEATURES GRID ── */
+    .features-section {
+      padding: 80px 48px;
+      background: #000d1f;
+    }
+
+    .features-inner { max-width: 1200px; margin: 0 auto; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* 5 cards: first 3 on top, 2 centered below */
+    .features-grid .feature-card:nth-child(4) {
+      grid-column: 1 / 2;
+      margin-left: auto;
+      width: 100%;
+    }
+    .features-grid .feature-card:nth-child(5) {
+      grid-column: 3 / 4;
+      margin-right: auto;
+      width: 100%;
+    }
+
+    .feature-card {
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 50px rgba(0,119,230,0.35);
+    }
+
+    .feature-card img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+    }
+
+    .feature-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        transparent 35%,
+        rgba(0,13,31,0.9) 100%
+      );
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px 24px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover .feature-card-overlay { opacity: 1; }
+
+    .feature-card-overlay h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .feature-card-overlay a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gold-bright);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* ── SPLIT SECTIONS ── */
+    .split-section {
+      padding: 100px 48px;
+    }
+
+    .split-section:nth-of-type(odd) {
+      background: #00112b;
+    }
+
+    .split-section:nth-of-type(even) {
+      background: #001529;
+    }
+
+    .split-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+
+    .split-inner.reverse { direction: rtl; }
+    .split-inner.reverse > * { direction: ltr; }
+
+    .split-image {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 0 50px rgba(0,119,230,0.2);
+    }
+
+    .split-image img {
+      width: 100%;
+      display: block;
+    }
+
+    .split-text .eyebrow {
+      display: inline-block;
+      color: var(--gold-bright);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .split-text h2 {
+      font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: var(--white);
+    }
+
+    .split-text p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    .pill-tag {
+      display: inline-block;
+      background: rgba(200,147,42,0.12);
+      border: 1px solid rgba(200,147,42,0.35);
+      color: var(--gold-bright);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    .split-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      padding: 15px 32px;
+      background: linear-gradient(135deg, var(--blue-brand), var(--blue-light));
+      color: var(--white);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 50px;
+      box-shadow: 0 6px 24px rgba(0,119,230,0.4);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .split-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(0,119,230,0.6);
+    }
+
+    /* ── PLAN CARDS ── */
+    .plan-section {
+      padding: 100px 48px;
+      background: #000a18;
+    }
+    .plan-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .plan-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 20px;
+    }
+    .plan-card {
+      border-radius: 24px;
+      padding: 36px 30px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .plan-card:hover { transform: translateY(-6px); }
+
+    .dynasty-card-lp {
+      background: linear-gradient(160deg, #120900, #1a0e00);
+      border: 1px solid rgba(200,147,42,0.3);
+      box-shadow: 0 8px 40px rgba(200,147,42,0.12);
+    }
+    .dynasty-card-lp:hover { box-shadow: 0 18px 60px rgba(200,147,42,0.25); }
+    .noble-card-lp {
+      background: linear-gradient(160deg, #001429, #000d1f);
+      border: 1px solid rgba(0,119,230,0.3);
+      box-shadow: 0 8px 40px rgba(0,119,230,0.1);
+    }
+    .noble-card-lp:hover { box-shadow: 0 18px 60px rgba(0,119,230,0.22); }
+
+    .plan-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .dynasty-card-lp::before { background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
+    .noble-card-lp::before   { background: linear-gradient(90deg, var(--blue-brand), var(--blue-light)); }
+
+    .plan-card-top { margin-bottom: 28px; }
+
+    .plan-card-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 14px;
+    }
+    .dynasty-badge { background: rgba(200,147,42,0.14); border: 1px solid rgba(200,147,42,0.3); color: var(--gold-bright); }
+    .noble-badge   { background: rgba(0,119,230,0.14); border: 1px solid rgba(0,119,230,0.3); color: var(--blue-glow); }
+
+    .plan-card-name { font-size: 1.65rem; font-weight: 900; margin-bottom: 8px; }
+    .plan-card-price { font-size: 2.4rem; font-weight: 900; margin-bottom: 4px; }
+    .dynasty-card-lp .plan-card-price { color: var(--gold-bright); }
+    .noble-card-lp   .plan-card-price { color: var(--blue-light); }
+    .plan-card-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 18px; }
+
+    .plan-card-daily {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px; border-radius: 14px; margin-top: 4px;
+    }
+    .dynasty-card-lp .plan-card-daily { background: rgba(200,147,42,0.1); border: 1px solid rgba(200,147,42,0.2); }
+    .noble-card-lp   .plan-card-daily { background: rgba(0,119,230,0.1); border: 1px solid rgba(0,119,230,0.2); }
+    .daily-label { font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+    .daily-amount { font-size: 1.3rem; font-weight: 900; }
+    .dynasty-amount { color: var(--gold-bright); }
+    .noble-amount   { color: var(--blue-light); }
+
+    .plan-perks {
+      list-style: none; display: flex; flex-direction: column; gap: 11px;
+      margin-bottom: 28px; flex: 1;
+    }
+    .plan-perks li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.9rem; color: var(--off-white);
+      padding-bottom: 11px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .plan-perks li:last-child { border-bottom: none; padding-bottom: 0; }
+    .plan-perks strong { margin-left: auto; font-weight: 700; }
+    .dynasty-card-lp .plan-perks strong { color: var(--gold-bright); }
+    .noble-card-lp   .plan-perks strong { color: var(--blue-light); }
+    .perk-icon { font-size: 1rem; flex-shrink: 0; }
+
+    .plan-card-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 16px; border-radius: 14px; font-size: 1rem; font-weight: 800;
+      text-decoration: none; margin-bottom: 14px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .plan-card-btn:hover { transform: translateY(-2px); }
+    .dynasty-btn {
+      background: linear-gradient(135deg, #7a5500, var(--gold-bright));
+      color: #1a0e00;
+      box-shadow: 0 6px 22px rgba(200,147,42,0.35);
+    }
+    .dynasty-btn:hover { box-shadow: 0 10px 32px rgba(200,147,42,0.5); }
+    .noble-btn {
+      background: linear-gradient(135deg, var(--blue-brand), var(--blue-light));
+      color: #fff;
+      box-shadow: 0 6px 22px rgba(0,119,230,0.4);
+    }
+    .noble-btn:hover { box-shadow: 0 10px 32px rgba(0,119,230,0.6); }
+
+    .plan-card-link {
+      text-align: center; font-size: 0.85rem; font-weight: 600;
+      text-decoration: none; display: block;
+    }
+    .dynasty-card-lp .plan-card-link { color: rgba(200,147,42,0.7); }
+    .noble-card-lp   .plan-card-link { color: rgba(41,168,255,0.7); }
+    .plan-card-link:hover { opacity: 1; text-decoration: underline; }
+
+    @media (max-width: 700px) {
+      .plan-cards { grid-template-columns: 1fr; }
+    }
+
+    /* ── PLAN IMAGE CARDS ── */
+    .plan-image-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 20px;
+    }
+    .plan-image-card {
+      display: block;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .plan-image-card:hover { transform: translateY(-6px); box-shadow: 0 18px 60px rgba(0,0,0,0.5); }
+    .plan-image-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .plan-image-link {
+      text-align: center; font-size: 0.85rem; font-weight: 600;
+      text-decoration: none; display: block; margin-top: 14px;
+      color: var(--blue-glow);
+    }
+    .plan-image-link:hover { opacity: 1; text-decoration: underline; }
+
+    @media (max-width: 700px) {
+      .plan-image-cards { grid-template-columns: 1fr; }
+    }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      padding: 100px 48px;
+      background: radial-gradient(ellipse at center, rgba(0,119,230,0.25) 0%, transparent 70%), #000d1f;
+      text-align: center;
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .cta-banner h2 .gradient {
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cta-banner p {
+      max-width: 520px;
+      margin: 0 auto 40px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #000710;
+      border-top: 1px solid rgba(0,119,230,0.15);
+      padding: 48px 48px 28px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .footer-brand img { height: 32px; }
+
+    .footer-brand span {
+      font-size: 1.3rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--blue-glow); }
+
+    .footer-copy {
+      max-width: 1100px;
+      margin: 20px auto 0;
+      text-align: center;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.85rem;
+    }
+
+    /* ── FADE IN ANIMATION ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-up.delay-1 { transition-delay: 0.1s; }
+    .fade-up.delay-2 { transition-delay: 0.2s; }
+    .fade-up.delay-3 { transition-delay: 0.3s; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .navbar { padding: 14px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .about-inner,
+      .split-inner { grid-template-columns: 1fr; gap: 40px; }
+
+      .split-inner.reverse { direction: ltr; }
+
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .features-grid .feature-card:nth-child(4),
+      .features-grid .feature-card:nth-child(5) {
+        grid-column: auto;
+        margin: 0;
+      }
+
+      .about-section,
+      .features-section,
+      .split-section,
+      .plan-section,
+      .cta-banner,
+      .footer { padding-left: 24px; padding-right: 24px; }
+    }
+
+    @media (max-width: 560px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="nav-brand">
+      <img src="images/logo.png" alt="Optinex logo" />
+      <span>Optinex</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#what-you-get">What You Get</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="#earning-plan">Earning  Plan</a>
+        <a href="register.html" class="nav-cta">Sign Up</a>
+      </div>
+      <a href="register.html" class="nav-cta" style="display:none;" id="mobile-signup">Sign Up</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#home" onclick="closeMobileMenu()">Home</a>
+    <a href="#what-you-get" onclick="closeMobileMenu()">What You Get</a>
+    <a href="how-it-works.html" onclick="closeMobileMenu()">How It Works</a>
+    <a href="#earning-plan" onclick="closeMobileMenu()">Earning Plan</a>
+    <a href="register.html" class="mobile-cta">Sign Up</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">🌍 Global Digital Performance Ecosystem</span>
+      <h1>Optimize Your <span class="accent">Wealth, Every Day</span></h1>
+      <p>Optinex is an advanced affiliate infrastructure built to empower individuals with reliable earning opportunities — through activities you already enjoy.</p>
+      <div class="hero-buttons">
+        <a href="register.html" class="btn-primary">
+          Get Started Free <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a href="#about" class="btn-outline">
+          <i class="fa-solid fa-play"></i> Learn More
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section" id="about">
+    <div class="about-inner">
+      <div class="about-image fade-up">
+        <img src="images/optinexIntro.jpg" alt="What is Optinex" />
+      </div>
+      <div class="about-text fade-up delay-2">
+        <span class="eyebrow">Who We Are</span>
+        <h2>Built for <em>Real Income</em>, Not Just Promises</h2>
+        <p>OPTINEX is a global digital performance-marketing ecosystem — an advanced affiliate infrastructure built to empower individuals with reliable earning opportunities while delivering measurable value to brands and businesses worldwide.</p>
+        <p>As a hybrid platform that blends innovative marketing technology with human-driven opportunity, OPTINEX provides users a seamless pathway to earn, grow, and scale through structured affiliate programs, skill-based tools, and transparent reward systems.</p>
+        <a href="register.html">Join Optinex Today <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU GET – feature grid -->
+  <section class="features-section" id="what-you-get">
+    <div class="features-inner">
+      <div class="section-title fade-up">
+        <span class="eyebrow">What You Can Do</span>
+        <h2>What You <span>Get</span></h2>
+        <p>Optinex puts diverse income streams at your fingertips — pick what fits your lifestyle and start earning today.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card fade-up">
+          <img src="images/optinex1.jpg" alt="IQ Test & Rewards" />
+          <div class="feature-card-overlay">
+            <h3>IQ Test & Rewards</h3>
+            <a href="register.html">Start Earning <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="feature-card fade-up delay-1">
+          <img src="images/optinex3.jpg" alt="Daily Pay" />
+          <div class="feature-card-overlay">
+            <h3>Daily Pay</h3>
+            <a href="register.html">Start Earning <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="feature-card fade-up delay-2">
+          <img src="images/optinex4.jpg" alt="Story Watch" />
+          <div class="feature-card-overlay">
+            <h3>Story Watch</h3>
+            <a href="register.html">Start Earning <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPLIT: IQ Test & Rewards -->
+  <section class="split-section">
+    <div class="split-inner">
+      <div class="split-image fade-up">
+        <img src="images/optinex1.jpg" alt="IQ Test & Rewards" />
+      </div>
+      <div class="split-text fade-up delay-2">
+        <span class="eyebrow">IQ Test & Rewards</span>
+        <h2>Test Your Brain. Get Paid Daily.</h2>
+        <p>Answer fun and tricky riddles correctly and earn up to £5 every single day. Daily brain challenges that reward your smarts — no stress, just think and earn.</p>
+        <p>
+          <span class="pill-tag">Daily Brain Challenges</span>
+          <span class="pill-tag">Up to £5/Day</span>
+          <span class="pill-tag">Fun & Fast</span>
+        </p>
+        <a href="register.html" class="split-cta">
+          Start Earning <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPLIT: Daily Pay (reverse) -->
+  <section class="split-section">
+    <div class="split-inner reverse">
+      <div class="split-image fade-up">
+        <img src="images/optinex3.jpg" alt="Optinex Daily Pay" />
+      </div>
+      <div class="split-text fade-up delay-2">
+        <span class="eyebrow">Daily Pay</span>
+        <h2>Earn Every Single Day — No Waiting.</h2>
+        <p>Stay consistent with activities on Optinex and enjoy steady daily income. Your effort today pays you today. No waiting, no delays — just reliable daily earnings deposited straight to you.</p>
+        <a href="register.html" class="split-cta">
+          Activate Daily Pay <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPLIT: Story Watch -->
+  <section class="split-section">
+    <div class="split-inner">
+      <div class="split-image fade-up">
+        <img src="images/optinex4.jpg" alt="Optinex Story Watch" />
+      </div>
+      <div class="split-text fade-up delay-2">
+        <span class="eyebrow">Story Watch</span>
+        <h2>Watch. Chill. Earn.</h2>
+        <p>Short content, quick engagement, steady rewards. Optinex Story Watch turns your scrolling habit into a real income stream. Entertainment that finally pays you back.</p>
+        <p>
+          <span class="pill-tag">Watch Short Content</span>
+          <span class="pill-tag">Steady Rewards</span>
+        </p>
+        <a href="register.html" class="split-cta">
+          Start Watching & Earning <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPLIT: Voice Tales (reverse) -->
+  <section class="split-section">
+    <div class="split-inner reverse">
+      <div class="split-image fade-up">
+        <img src="images/optinex8.jpg" alt="Optinex Voice Tales" />
+      </div>
+      <div class="split-text fade-up delay-2">
+        <span class="eyebrow">Voice Tales</span>
+        <h2>Plug In and Cash Out.</h2>
+        <p>Listen to powerful voice stories and earn while you enjoy the vibe. Optinex Voice Tales rewards you for every session — your ears are now making money for you.</p>
+        <a href="register.html" class="split-cta">
+          Listen & Earn <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPLIT: BNPL -->
+  <section class="split-section">
+    <div class="split-inner">
+      <div class="split-image fade-up">
+        <img src="images/optinex2.jpg" alt="Optinex BNPL" />
+      </div>
+      <div class="split-text fade-up delay-2">
+        <span class="eyebrow">BNPL – Buy Now, Pay Later</span>
+        <h2>No Money Now? No Problem.</h2>
+        <p>With Optinex BNPL, you don't have to wait until you have full cash before you upgrade your life. Get phones, gadgets, fashion, and essentials instantly — pay gradually over time without pressure.</p>
+        <p>
+          <span class="pill-tag">Get Instantly</span>
+          <span class="pill-tag">Pay Gradually</span>
+          <span class="pill-tag">No Stress</span>
+        </p>
+        <a href="register.html" class="split-cta">
+          Shop Now, Pay Later <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- EARNING PLAN SECTION -->
+  <section class="plan-section" id="earning-plan">
+    <div class="plan-inner">
+      <div class="section-title fade-up">
+        <span class="eyebrow">Earning Structure</span>
+        <h2>Choose Your <span>Earning Plan</span></h2>
+        <p>Two powerful packages designed for every level of ambition. Pick your plan, activate your account, and start earning from day one.</p>
+      </div>
+
+      <!-- Plan cards (image-based) -->
+      <div class="plan-image-cards">
+
+        <!-- DYNASTY -->
+        <div>
+          <a href="register.html" class="plan-image-card fade-up delay-1">
+            <img src="images/optinexDynasty.jpg" alt="Optinex Dynasty Plan — ₦15,000 package, £20 daily gain" />
+          </a>
+          <!-- <a href="how-it-works.html#dynasty" class="plan-image-link fade-up delay-1">See full breakdown →</a> -->
+        </div>
+
+        <!-- NOBLE -->
+        <div>
+          <a href="register.html" class="plan-image-card fade-up delay-2">
+            <img src="images/optinexNoble.jpg" alt="Optinex Noble Plan — ₦10,000 package, £12 daily gain" />
+          </a>
+          <!-- <a href="how-it-works.html#noble" class="plan-image-link fade-up delay-2">See full breakdown →</a> -->
+        </div>
+
+      </div>
+
+      <div style="text-align:center; margin-top:36px;" class="fade-up">
+        <a href="how-it-works.html" style="display:inline-flex;align-items:center;gap:8px;color:var(--blue-glow);font-weight:700;text-decoration:none;font-size:0.97rem;">
+          View complete earning breakdown <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="fade-up">
+      <h2>Ready to <span class="gradient">Optimize Your Wealth?</span></h2>
+      <p>Join thousands of members already earning daily on Optinex. Your first reward starts the moment you activate your account.</p>
+      <a href="register.html" class="btn-primary" style="font-size:1.1rem; padding:18px 50px;">
+        Create Your Free Account <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="#" class="footer-brand">
+        <img src="images/logo.png" alt="Optinex" />
+        <span>Optinex</span>
+      </a>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#what-you-get">What You Get</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="#earning-plan">Earning Plan</a>
+        <a href="register.html">Sign Up</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Optinex. Optimize Your Wealth. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'i')) {
+        e.preventDefault();
+      }
+    });
+
+    // Fade-up observer
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        navbar.style.background = 'rgba(0,13,31,0.98)';
+        navbar.style.boxShadow = '0 4px 24px rgba(0,0,0,0.6)';
+      } else {
+        navbar.style.background = 'rgba(0,17,43,0.85)';
+        navbar.style.boxShadow = 'none';
+      }
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSignup = document.getElementById('mobile-signup');
+
+    function checkMobile() {
+      if (window.innerWidth <= 900) {
+        mobileSignup.style.display = 'inline-flex';
+      } else {
+        mobileSignup.style.display = 'none';
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+      }
+    }
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMobileMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
+</body>
+</html>

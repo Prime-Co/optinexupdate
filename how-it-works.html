@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How It Works – Optinex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --blue-brand:  #0077e6;
+      --blue-light:  #29a8ff;
+      --blue-glow:   #7fd4ff;
+      --gold:        #c8932a;
+      --gold-warm:   #f0b429;
+      --gold-bright: #ffd166;
+      --white:       #ffffff;
+      --off-white:   #e8f4ff;
+      --muted:       #7aaacf;
+      --bg-dark:     #000d1f;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-dark);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(0,13,31,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,119,230,0.2);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-brand img { height: 38px; object-fit: contain; }
+    .nav-brand span {
+      font-size: 1.4rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      letter-spacing: -0.5px;
+    }
+    .nav-right { display: flex; align-items: center; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { color: var(--off-white); text-decoration: none; font-size: 0.93rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--blue-glow); }
+    .nav-links a.active { color: var(--blue-glow); font-weight: 700; }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--blue-brand), var(--blue-light));
+      color: var(--white) !important; padding: 10px 26px; border-radius: 50px;
+      font-weight: 700 !important; text-decoration: none; white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,119,230,0.4);
+      transition: transform 0.2s, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,119,230,0.6) !important; }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; width: 36px; height: 36px; cursor: pointer;
+      background: none; border: none; padding: 4px; margin-left: 12px;
+    }
+    .hamburger span { display: block; height: 2px; width: 100%; background: var(--off-white); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 999; background: rgba(0,13,31,0.98); backdrop-filter: blur(20px);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 36px; padding: 100px 24px 48px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: var(--off-white); text-decoration: none; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; transition: color 0.2s; }
+    .mobile-menu a:hover { color: var(--blue-glow); }
+    .mobile-menu .mobile-cta { background: linear-gradient(135deg, var(--blue-brand), var(--blue-light)); color: var(--white) !important; padding: 14px 32px; border-radius: 50px; font-size: 1.1rem; margin-top: 8px; }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 148px 48px 80px;
+      text-align: center;
+      position: relative;
+      background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(0,119,230,0.18) 0%, transparent 70%), var(--bg-dark);
+    }
+    .page-hero::after {
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 220px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(41,168,255,0.5), transparent);
+    }
+    .page-hero .eyebrow {
+      display: inline-block;
+      background: rgba(0,119,230,0.18); border: 1px solid rgba(41,168,255,0.35);
+      color: var(--blue-glow); font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 7px 22px; border-radius: 50px; margin-bottom: 22px;
+    }
+    .page-hero h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4rem); font-weight: 900; line-height: 1.1; margin-bottom: 18px;
+    }
+    .page-hero h1 .grad {
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .page-hero p {
+      max-width: 540px; margin: 0 auto 36px;
+      color: var(--muted); font-size: 1.05rem; line-height: 1.75;
+    }
+
+    /* Plan jump buttons */
+    .plan-jump-row {
+      display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
+    }
+    .jump-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 50px; font-size: 0.9rem; font-weight: 700;
+      text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .jump-btn.dynasty {
+      background: linear-gradient(135deg, #8a6000, var(--gold-bright));
+      color: #1a0e00;
+      box-shadow: 0 6px 22px rgba(200,147,42,0.35);
+    }
+    .jump-btn.dynasty:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(200,147,42,0.5); }
+    .jump-btn.noble {
+      background: linear-gradient(135deg, var(--blue-brand), var(--blue-light));
+      color: #fff;
+      box-shadow: 0 6px 22px rgba(0,119,230,0.4);
+    }
+    .jump-btn.noble:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,119,230,0.6); }
+
+    /* ── STEPS BAR ── */
+    .steps-section {
+      padding: 72px 48px 56px;
+      background: #000a18;
+    }
+    .steps-inner { max-width: 980px; margin: 0 auto; }
+    .steps-label {
+      text-align: center; font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 40px;
+    }
+    .steps-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      position: relative;
+    }
+    .steps-row::before {
+      content: '';
+      position: absolute; top: 28px; left: calc(12.5% + 8px); right: calc(12.5% + 8px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue-brand), var(--gold-bright));
+      z-index: 0;
+    }
+    .step-item {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 0 12px; position: relative; z-index: 1;
+    }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; font-weight: 900; margin-bottom: 16px;
+      border: 2px solid;
+    }
+    .step-num.blue { background: rgba(0,119,230,0.18); border-color: var(--blue-light); color: var(--blue-glow); }
+    .step-num.gold-n { background: rgba(200,147,42,0.15); border-color: var(--gold-warm); color: var(--gold-bright); }
+    .step-item h4 { font-size: 0.93rem; font-weight: 800; margin-bottom: 6px; }
+    .step-item p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+
+    /* ── PLAN SECTIONS ── */
+    .plan-section { padding: 96px 48px; }
+    .dynasty-section { background: linear-gradient(180deg, #0d0800 0%, #100b00 100%); }
+    .noble-section   { background: linear-gradient(180deg, #00112b 0%, #000d1f 100%); }
+
+    .plan-inner { max-width: 1140px; margin: 0 auto; }
+
+    /* Plan header — image + intro side by side */
+    .plan-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center; margin-bottom: 64px;
+    }
+    .plan-header.reverse { direction: rtl; }
+    .plan-header.reverse > * { direction: ltr; }
+
+    .plan-image {
+      border-radius: 24px; overflow: hidden; position: relative;
+    }
+    .plan-image img { width: 100%; display: block; }
+    .plan-image.dynasty-glow { box-shadow: 0 0 0 1px rgba(200,147,42,0.2), 0 8px 64px rgba(200,147,42,0.2); }
+    .plan-image.noble-glow   { box-shadow: 0 0 0 1px rgba(41,168,255,0.2), 0 8px 64px rgba(0,119,230,0.18); }
+
+    .plan-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 18px; border-radius: 50px;
+      font-size: 0.76rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    .plan-badge.dynasty { background: rgba(200,147,42,0.14); border: 1px solid rgba(200,147,42,0.35); color: var(--gold-bright); }
+    .plan-badge.noble   { background: rgba(0,119,230,0.14); border: 1px solid rgba(41,168,255,0.3); color: var(--blue-glow); }
+
+    .plan-title { font-size: clamp(2rem, 3.5vw, 2.9rem); font-weight: 900; line-height: 1.1; margin-bottom: 8px; }
+    .plan-title .dynasty-text { color: var(--gold-bright); }
+    .plan-title .noble-text   { color: var(--blue-light); }
+
+    .plan-desc { font-size: 0.97rem; color: var(--muted); line-height: 1.7; margin-bottom: 22px; }
+
+    .enrollment-box {
+      display: inline-flex; flex-direction: column;
+      padding: 18px 28px; border-radius: 16px; margin-bottom: 10px;
+    }
+    .enrollment-box.dynasty { background: rgba(200,147,42,0.1); border: 1px solid rgba(200,147,42,0.28); }
+    .enrollment-box.noble   { background: rgba(0,119,230,0.1); border: 1px solid rgba(0,119,230,0.28); }
+    .enrollment-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .enrollment-amount { font-size: 2.1rem; font-weight: 900; }
+    .enrollment-box.dynasty .enrollment-amount { color: var(--gold-bright); }
+    .enrollment-box.noble   .enrollment-amount { color: var(--blue-light); }
+    .enrollment-sub { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── EARNINGS GRID ── */
+    .earnings-divider {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 28px;
+    }
+    .earnings-divider .line { flex: 1; height: 1px; }
+    .dynasty-section .earnings-divider .line { background: linear-gradient(90deg, transparent, rgba(200,147,42,0.35)); }
+    .noble-section   .earnings-divider .line { background: linear-gradient(90deg, transparent, rgba(41,168,255,0.3)); }
+    .earnings-divider .line:last-child { transform: rotate(180deg); }
+    .earnings-divider span { font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
+    .dynasty-section .earnings-divider span { color: var(--gold-bright); }
+    .noble-section   .earnings-divider span { color: var(--blue-glow); }
+
+    .earnings-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .card-wide { grid-column: 1 / -1; }
+
+    .earn-card {
+      border-radius: 18px; padding: 24px 22px;
+      background: rgba(255,255,255,0.03);
+      position: relative; overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .earn-card:hover { transform: translateY(-4px); }
+
+    .earn-card.dynasty-card { border: 1px solid rgba(200,147,42,0.18); }
+    .earn-card.dynasty-card:hover { border-color: rgba(200,147,42,0.45); }
+    .earn-card.noble-card   { border: 1px solid rgba(0,119,230,0.18); }
+    .earn-card.noble-card:hover   { border-color: rgba(0,119,230,0.45); }
+
+    .earn-card::before {
+      content: ''; position: absolute; top: -20px; right: -20px;
+      width: 90px; height: 90px; border-radius: 50%; opacity: 0.07; filter: blur(30px);
+    }
+    .earn-card.dynasty-card::before { background: var(--gold-bright); }
+    .earn-card.noble-card::before   { background: var(--blue-light); }
+
+    .earn-icon { font-size: 1.5rem; margin-bottom: 12px; display: block; }
+
+    .earn-name {
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+
+    .earn-amount { font-size: 1.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 2px; }
+    .earn-card.dynasty-card .earn-amount { color: var(--gold-bright); }
+    .earn-card.noble-card   .earn-amount { color: var(--blue-light); }
+
+    .earn-per { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+    .earn-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-top: 8px; }
+
+    /* Wide card inner layout */
+    .earn-wide-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .earn-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 20px; border-radius: 50px; font-size: 0.82rem; font-weight: 700;
+    }
+    .earn-card.dynasty-card .earn-badge { background: rgba(200,147,42,0.14); border: 1px solid rgba(200,147,42,0.3); color: var(--gold-bright); }
+    .earn-card.noble-card   .earn-badge { background: rgba(0,119,230,0.14); border: 1px solid rgba(0,119,230,0.3); color: var(--blue-light); }
+
+    /* Total daily gain card */
+    .total-card {
+      background: linear-gradient(135deg, rgba(200,147,42,0.15), rgba(0,0,0,0.4));
+      border: 2px solid rgba(200,147,42,0.35) !important;
+    }
+    .total-card.noble-total {
+      background: linear-gradient(135deg, rgba(0,119,230,0.18), rgba(0,0,0,0.4));
+      border: 2px solid rgba(41,168,255,0.35) !important;
+    }
+
+    /* ── PLAN CTA ── */
+    .plan-cta-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; margin-top: 52px; flex-wrap: wrap;
+    }
+
+    .btn-dynasty {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 17px 40px; border-radius: 50px;
+      background: linear-gradient(135deg, #7a5500, var(--gold-bright));
+      color: #1a0e00; font-size: 1rem; font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 8px 28px rgba(200,147,42,0.35);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .btn-dynasty:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(200,147,42,0.55); }
+
+    .btn-noble {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 17px 40px; border-radius: 50px;
+      background: linear-gradient(135deg, var(--blue-brand), var(--blue-light));
+      color: #fff; font-size: 1rem; font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 8px 28px rgba(0,119,230,0.4);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .btn-noble:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,119,230,0.6); }
+
+    /* ── PLAN DIVIDER ── */
+    .plan-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,119,230,0.3), transparent);
+    }
+
+    /* ── FAQ / PROCESS ── */
+    .process-section {
+      padding: 80px 48px;
+      background: #000a18;
+    }
+    .process-inner { max-width: 860px; margin: 0 auto; text-align: center; }
+    .process-inner h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 14px; }
+    .process-inner h2 span {
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .process-inner > p { color: var(--muted); font-size: 0.97rem; line-height: 1.75; margin-bottom: 48px; }
+
+    .faq-list { text-align: left; display: flex; flex-direction: column; gap: 14px; }
+    .faq-item {
+      background: rgba(0,119,230,0.05);
+      border: 1px solid rgba(0,119,230,0.18);
+      border-radius: 16px; padding: 22px 24px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .faq-item:hover { border-color: rgba(0,119,230,0.35); background: rgba(0,119,230,0.08); }
+    .faq-item.open { border-color: rgba(0,119,230,0.4); }
+    .faq-q {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      font-size: 0.97rem; font-weight: 700; color: var(--white);
+    }
+    .faq-icon { font-size: 0.8rem; color: var(--blue-light); flex-shrink: 0; transition: transform 0.25s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      font-size: 0.9rem; color: var(--muted); line-height: 1.7;
+      margin-top: 12px; display: none;
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      padding: 96px 48px;
+      text-align: center;
+      background: radial-gradient(ellipse at center, rgba(0,119,230,0.2) 0%, transparent 70%), #000d1f;
+    }
+    .cta-banner h2 { font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 900; margin-bottom: 16px; }
+    .cta-banner h2 span {
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .cta-banner p { max-width: 500px; margin: 0 auto 36px; color: var(--muted); font-size: 1rem; line-height: 1.75; }
+    .cta-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    .footer { background: #000710; border-top: 1px solid rgba(0,119,230,0.15); padding: 44px 48px 24px; }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 22px;
+      padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .footer-brand img { height: 32px; }
+    .footer-brand span {
+      font-size: 1.3rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--blue-light), var(--gold-bright));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .footer-links { display: flex; gap: 26px; flex-wrap: wrap; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--blue-glow); }
+    .footer-copy { max-width: 1100px; margin: 18px auto 0; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.83rem; }
+
+    /* ── FADE ── */
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.d1 { transition-delay: 0.08s; }
+    .fade-up.d2 { transition-delay: 0.16s; }
+    .fade-up.d3 { transition-delay: 0.24s; }
+    .fade-up.d4 { transition-delay: 0.32s; }
+    .fade-up.d5 { transition-delay: 0.40s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .navbar { padding: 14px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .plan-header { grid-template-columns: 1fr; gap: 36px; }
+      .plan-header.reverse { direction: ltr; }
+      .earnings-grid { grid-template-columns: 1fr 1fr; }
+      .page-hero, .steps-section, .plan-section, .process-section, .cta-banner, .footer { padding-left: 24px; padding-right: 24px; }
+      .steps-row { grid-template-columns: 1fr 1fr; gap: 28px; }
+      .steps-row::before { display: none; }
+    }
+    @media (max-width: 560px) {
+      .earnings-grid { grid-template-columns: 1fr; }
+      .earn-wide-inner { flex-direction: column; align-items: flex-start; }
+      .steps-row { grid-template-columns: 1fr; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-brand">
+      <img src="images/logo.png" alt="Optinex logo" />
+      <span>Optinex</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="how-it-works.html" class="active">How It Works</a>
+        <a href="index.html#what-you-get">What You Get</a>
+        <a href="index.html#earning-plan">Earning Plan</a>
+        <a href="register.html" class="nav-cta">Sign Up</a>
+      </div>
+      <a href="register.html" class="nav-cta" style="display:none;" id="mobile-signup">Sign Up</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="how-it-works.html" onclick="closeMobileMenu()">How It Works</a>
+    <a href="index.html#what-you-get" onclick="closeMobileMenu()">What You Get</a>
+    <a href="index.html#earning-plan" onclick="closeMobileMenu()">Earning Plan</a>
+    <a href="register.html" class="mobile-cta">Sign Up</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <span class="eyebrow">Membership Plans</span>
+    <h1>How It <span class="grad">Works</span></h1>
+    <p>Choose your plan, activate your account, and start earning across multiple reward streams from day one. No guessing — every payout is transparent.</p>
+    <div class="plan-jump-row">
+      <a href="#dynasty" class="jump-btn dynasty"><i class="fa-solid fa-crown"></i> Dynasty Plan — ₦15,000</a>
+      <a href="#noble"   class="jump-btn noble"><i class="fa-solid fa-gem"></i> Noble Plan — ₦10,000</a>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS STEPS -->
+  <section class="steps-section">
+    <div class="steps-inner">
+      <p class="steps-label">Your Journey in 4 Simple Steps</p>
+      <div class="steps-row">
+        <div class="step-item fade-up">
+          <div class="step-num blue">1</div>
+          <h4>Create Account</h4>
+          <p>Sign up for free in under 2 minutes. No experience needed.</p>
+        </div>
+        <div class="step-item fade-up d1">
+          <div class="step-num gold-n">2</div>
+          <h4>Choose Your Plan</h4>
+          <p>Pick Dynasty (₦15,000) or Noble (₦10,000) based on your goals.</p>
+        </div>
+        <div class="step-item fade-up d2">
+          <div class="step-num blue">3</div>
+          <h4>Get Activated</h4>
+          <p>Complete your payment and unlock all earning tools instantly.</p>
+        </div>
+        <div class="step-item fade-up d3">
+          <div class="step-num gold-n">4</div>
+          <h4>Start Earning</h4>
+          <p>Complete daily activities and watch your balance grow every day.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       DYNASTY PLAN
+  ══════════════════════════════════════ -->
+  <section class="plan-section dynasty-section fade-up" id="dynasty">
+    <div class="plan-inner">
+
+      <div class="plan-header fade-up">
+        <div class="plan-image dynasty-glow">
+          <img src="images/optinexDynasty.jpg" alt="Optinex Dynasty Plan" />
+        </div>
+        <div class="plan-intro">
+          <span class="plan-badge dynasty"><i class="fa-solid fa-crown"></i> Premium Plan</span>
+          <h2 class="plan-title">👑 Dynasty <span class="dynasty-text">Plan</span></h2>
+          <p class="plan-desc">Our higher-level package with better pay, bigger benefits, and more opportunities to grow your earnings. Designed for members ready to take things further.</p>
+          <div class="enrollment-box dynasty">
+            <span class="enrollment-label">Package Price</span>
+            <span class="enrollment-amount">₦15,000</span>
+            <span class="enrollment-sub">Optinex Gateway: ₦15,000 (£7.5)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="earnings-divider fade-up">
+        <div class="line"></div>
+        <span>💰 Dynasty Earning Breakdown</span>
+        <div class="line"></div>
+      </div>
+
+      <div class="earnings-grid">
+
+        <!-- Total Daily — wide hero card -->
+        <div class="earn-card dynasty-card total-card card-wide fade-up">
+          <div class="earn-wide-inner">
+            <div>
+              <span class="earn-icon">🌟</span>
+              <div class="earn-name">Total Optinex Daily Gain</div>
+              <div class="earn-amount">£20 Daily</div>
+              <div class="earn-desc">Consistently complete your daily activities across all tools and earn up to £20 every single day.</div>
+            </div>
+            <span class="earn-badge"><i class="fa-solid fa-rocket"></i> Maximum Daily Payout</span>
+          </div>
+        </div>
+
+        <!-- Brain Riddles -->
+        <div class="earn-card dynasty-card fade-up d1">
+          <span class="earn-icon">🧩</span>
+          <div class="earn-name">Brain Riddles</div>
+          <div class="earn-amount">£5</div>
+          <div class="earn-per">Per Day</div>
+          <div class="earn-desc">Answer fun, tricky riddles correctly and earn £5 every day.</div>
+        </div>
+
+        <!-- Daily Pay -->
+        <div class="earn-card dynasty-card fade-up d2">
+          <span class="earn-icon">💷</span>
+          <div class="earn-name">Optinex Daily Pay</div>
+          <div class="earn-amount">£2.5</div>
+          <div class="earn-per">Per Day</div>
+          <div class="earn-desc">Stay active and receive your £2.5 daily pay automatically.</div>
+        </div>
+
+        <!-- Hour Flow -->
+        <div class="earn-card dynasty-card fade-up d3">
+          <span class="earn-icon">⏰</span>
+          <div class="earn-name">Optinex Hour Flow</div>
+          <div class="earn-amount">£2</div>
+          <div class="earn-per">Per Hour</div>
+          <div class="earn-desc">Every hour of active use on Optinex earns you £2.</div>
+        </div>
+
+        <!-- Story Watch -->
+        <div class="earn-card dynasty-card fade-up d1">
+          <span class="earn-icon">🎥</span>
+          <div class="earn-name">Optinex Story Watch</div>
+          <div class="earn-amount">£2.5</div>
+          <div class="earn-per">Per Video</div>
+          <div class="earn-desc">Watch short story content and earn £2.5 for each video completed.</div>
+        </div>
+
+        <!-- Moral Craft -->
+        <div class="earn-card dynasty-card fade-up d2">
+          <span class="earn-icon">🧠</span>
+          <div class="earn-name">Optinex Moral Craft</div>
+          <div class="earn-amount">£2</div>
+          <div class="earn-per">Per Day</div>
+          <div class="earn-desc">Engage with moral-based content challenges and earn daily.</div>
+        </div>
+
+        <!-- Review X -->
+        <div class="earn-card dynasty-card fade-up d3">
+          <span class="earn-icon">✍️</span>
+          <div class="earn-name">Optinex Review X</div>
+          <div class="earn-amount">£2</div>
+          <div class="earn-per">Per Review</div>
+          <div class="earn-desc">Write product or service reviews and get paid £2 for each one.</div>
+        </div>
+
+        <!-- Idea Vault -->
+        <div class="earn-card dynasty-card fade-up d1">
+          <span class="earn-icon">💡</span>
+          <div class="earn-name">Optinex Idea Vault</div>
+          <div class="earn-amount">£4</div>
+          <div class="earn-per">Per Idea</div>
+          <div class="earn-desc">Submit creative ideas and earn £4 for every approved contribution.</div>
+        </div>
+
+        <!-- Gateway (wide) -->
+        <div class="earn-card dynasty-card card-wide fade-up d2">
+          <div class="earn-wide-inner">
+            <div>
+              <span class="earn-icon">🚀</span>
+              <div class="earn-name">Optinex Gateway Reward</div>
+              <div class="earn-amount">₦15,000 <span style="font-size:1rem;font-weight:600;color:var(--muted)">(£7.5)</span></div>
+              <div class="earn-desc">Receive your full gateway activation reward upon successful account activation.</div>
+            </div>
+            <span class="earn-badge"><i class="fa-solid fa-bolt"></i> Instant on Activation</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="plan-cta-row fade-up">
+        <a href="register.html" class="btn-dynasty">
+          Activate Dynasty Plan <i class="fa-solid fa-crown"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="plan-divider"></div>
+
+  <!-- ══════════════════════════════════════
+       NOBLE PLAN
+  ══════════════════════════════════════ -->
+  <section class="plan-section noble-section" id="noble">
+    <div class="plan-inner">
+
+      <div class="plan-header reverse fade-up">
+        <div class="plan-image noble-glow">
+          <img src="images/optinexNoble.jpg" alt="Optinex Noble Plan" />
+        </div>
+        <div class="plan-intro">
+          <span class="plan-badge noble"><i class="fa-solid fa-gem"></i> Entry Plan</span>
+          <h2 class="plan-title">🔹 Noble <span class="noble-text">Plan</span></h2>
+          <p class="plan-desc">Our smart entry package. Perfect for members starting their wealth journey. For those looking for bigger returns, the Dynasty Plan offers increased benefits and higher daily pay.</p>
+          <div class="enrollment-box noble">
+            <span class="enrollment-label">Package Price</span>
+            <span class="enrollment-amount">₦10,000</span>
+            <span class="enrollment-sub">Optinex Gateway: ₦10,000 (£5)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="earnings-divider fade-up">
+        <div class="line"></div>
+        <span>💰 Noble Earning Breakdown</span>
+        <div class="line"></div>
+      </div>
+
+      <div class="earnings-grid">
+
+        <!-- Total Daily — wide hero card -->
+        <div class="earn-card noble-card total-card noble-total card-wide fade-up">
+          <div class="earn-wide-inner">
+            <div>
+              <span class="earn-icon">🌟</span>
+              <div class="earn-name">Total Optinex Daily Gain</div>
+              <div class="earn-amount">£12 Daily</div>
+              <div class="earn-desc">Complete your daily tasks across all Noble plan tools and earn up to £12 every day.</div>
+            </div>
+            <span class="earn-badge"><i class="fa-solid fa-rocket"></i> Daily Maximum</span>
+          </div>
+        </div>
+
+        <!-- Brain Riddles -->
+        <div class="earn-card noble-card fade-up d1">
+          <span class="earn-icon">🧩</span>
+          <div class="earn-name">Brain Riddles</div>
+          <div class="earn-amount">£3</div>
+          <div class="earn-per">Per Day</div>
+          <div class="earn-desc">Solve daily brain riddles and earn £3 every day.</div>
+        </div>
+
+        <!-- Daily Pay -->
+        <div class="earn-card noble-card fade-up d2">
+          <span class="earn-icon">💷</span>
+          <div class="earn-name">Optinex Daily Pay</div>
+          <div class="earn-amount">£1.5</div>
+          <div class="earn-per">Per Day</div>
+          <div class="earn-desc">Your steady daily income — just stay active and collect.</div>
+        </div>
+
+        <!-- Hour Flow -->
+        <div class="earn-card noble-card fade-up d3">
+          <span class="earn-icon">⏰</span>
+          <div class="earn-name">Optinex Hour Flow</div>
+          <div class="earn-amount">£1</div>
+          <div class="earn-per">Per Hour</div>
+          <div class="earn-desc">Earn £1 for every active hour you spend on the platform.</div>
+        </div>
+
+        <!-- Story Watch -->
+        <div class="earn-card noble-card fade-up d1">
+          <span class="earn-icon">🎥</span>
+          <div class="earn-name">Optinex Story Watch</div>
+          <div class="earn-amount">£1.5</div>
+          <div class="earn-per">Per Video</div>
+          <div class="earn-desc">Watch and earn £1.5 for every video you complete on the platform.</div>
+        </div>
+
+        <!-- Moral Craft -->
+        <div class="earn-card noble-card fade-up d2">
+          <span class="earn-icon">🧠</span>
+          <div class="earn-name">Optinex Moral Craft</div>
+          <div class="earn-amount">£1.5</div>
+          <div class="earn-per">Per Day</div>
+          <div class="earn-desc">Daily moral content engagement that pays you £1.5 each day.</div>
+        </div>
+
+        <!-- Review X -->
+        <div class="earn-card noble-card fade-up d3">
+          <span class="earn-icon">✍️</span>
+          <div class="earn-name">Optinex Review X</div>
+          <div class="earn-amount">£1.5</div>
+          <div class="earn-per">Per Review</div>
+          <div class="earn-desc">Write quality reviews and earn £1.5 for each approved submission.</div>
+        </div>
+
+        <!-- Idea Vault -->
+        <div class="earn-card noble-card fade-up d1">
+          <span class="earn-icon">💡</span>
+          <div class="earn-name">Optinex Idea Vault</div>
+          <div class="earn-amount">£2</div>
+          <div class="earn-per">Per Idea</div>
+          <div class="earn-desc">Share your ideas and earn £2 for every one that gets approved.</div>
+        </div>
+
+        <!-- Gateway (wide) -->
+        <div class="earn-card noble-card card-wide fade-up d2">
+          <div class="earn-wide-inner">
+            <div>
+              <span class="earn-icon">🚀</span>
+              <div class="earn-name">Optinex Gateway Reward</div>
+              <div class="earn-amount">₦10,000 <span style="font-size:1rem;font-weight:600;color:var(--muted)">(£5)</span></div>
+              <div class="earn-desc">Receive your gateway reward immediately upon successful plan activation.</div>
+            </div>
+            <span class="earn-badge"><i class="fa-solid fa-bolt"></i> Instant on Activation</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="plan-cta-row fade-up">
+        <a href="register.html" class="btn-noble">
+          Activate Noble Plan <i class="fa-solid fa-gem"></i>
+        </a>
+        <a href="#dynasty" class="btn-dynasty" style="font-size:0.9rem; padding:14px 28px;">
+          Upgrade to Dynasty <i class="fa-solid fa-crown"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="process-section">
+    <div class="process-inner">
+      <h2>Common <span>Questions</span></h2>
+      <p>Everything you need to know before activating your Optinex plan.</p>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q">
+            Can I upgrade from Noble to Dynasty later?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </div>
+          <div class="faq-a">Yes. You can upgrade your plan at any time from your dashboard. Your earnings and referral network carry over when you upgrade.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            When do I receive my Gateway reward?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </div>
+          <div class="faq-a">Your Optinex Gateway reward is issued instantly upon successful payment and account activation — no waiting, no delays.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            How do I complete earning activities daily?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </div>
+          <div class="faq-a">Once your account is active, your dashboard unlocks all earning tools. You can complete Brain Riddles, watch Story Watch videos, submit reviews, and more — all from a single dashboard, every day.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            When and how do I withdraw my earnings?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </div>
+          <div class="faq-a">Withdrawals are processed through your Optinex wallet. Earnings accumulate daily and can be withdrawn once they reach the minimum threshold — straight to your bank account.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            Is there a referral or alliance bonus?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </div>
+          <div class="faq-a">Yes. Both plans include Alliance Bonuses for direct and indirect referrals. Dynasty members earn ₦300 per 1st indirect alliance and ₦200 per 2nd. Noble members earn ₦200 and ₦100 respectively. Growing your network directly multiplies your income.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="fade-up">
+      <h2>Ready to Pick Your <span>Plan?</span></h2>
+      <p>Create your free account today and activate the plan that fits your ambition. Earnings start from day one.</p>
+      <div class="cta-btns">
+        <a href="register.html" class="btn-dynasty">Get Started <i class="fa-solid fa-crown"></i></a>
+        <a href="index.html" class="btn-noble">Back to Home <i class="fa-solid fa-house"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="index.html" class="footer-brand">
+        <img src="images/logo.png" alt="Optinex" />
+        <span>Optinex</span>
+      </a>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="index.html#what-you-get">What You Get</a>
+        <a href="index.html#earning-plan">Earning Plan</a>
+        <a href="register.html">Sign Up</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Optinex. Optimize Your Wealth. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'i')) e.preventDefault();
+    });
+
+    // Fade-up
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.09 });
+    fadeEls.forEach(el => obs.observe(el));
+
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        navbar.style.background = 'rgba(0,13,31,0.98)';
+        navbar.style.boxShadow = '0 4px 24px rgba(0,0,0,0.6)';
+      } else {
+        navbar.style.background = 'rgba(0,13,31,0.88)';
+        navbar.style.boxShadow = 'none';
+      }
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSignup = document.getElementById('mobile-signup');
+    function checkMobile() {
+      mobileSignup.style.display = window.innerWidth <= 900 ? 'inline-flex' : 'none';
+      if (window.innerWidth > 900) { mobileMenu.classList.remove('open'); hamburger.classList.remove('open'); }
+    }
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    function closeMobileMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+  </script>
+</body>
+</html>
