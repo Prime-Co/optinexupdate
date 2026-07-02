@@ -106,6 +106,87 @@
             animation: float 3s ease-in-out infinite;
         }
 
+        /* Welcome Modal */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.75);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    animation:fadeIn .3s ease;
+}
+
+.modal-box{
+    width:90%;
+    max-width:420px;
+    background:linear-gradient(
+        135deg,
+        rgba(52, 131, 235, 0.95),
+        rgba(43, 89, 150, 0.95)
+    );
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:25px;
+    padding:30px;
+    color:white;
+    text-align:center;
+    position:relative;
+    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+}
+
+.modal-logo{
+    font-size:50px;
+    margin-bottom:15px;
+}
+
+.modal-box h2{
+    margin-bottom:15px;
+}
+
+.modal-box p{
+    line-height:1.7;
+    margin-bottom:15px;
+    color:#f5eaff;
+}
+
+.close-modal{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:36px;
+    height:36px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    color:white;
+    font-size:24px;
+    cursor:pointer;
+}
+
+.thank-you-btn{
+    margin-top:10px;
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:white;
+    color:#020735;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.thank-you-btn:hover{
+    transform:translateY(-2px);
+}
+
+.hidden{
+    display:none;
+}
+
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-12px); }
@@ -384,9 +465,49 @@
             </a>
         </button>
 
+        <!-- Welcome Modal -->
+<div id="welcomeModal" class="modal-overlay">
+
+    <div class="modal-box">
+
+        <button class="close-modal" onclick="closeWelcomeModal()">
+            X
+        </button>
+
+        <div class="modal-logo">
+            <img src="./images/logo.png" class="logo">
+        </div>
+
+        <h2>PAYMENT NOTICE:</h2>
+
+        <p>
+            Please avoid using OPAY for this transaction, 
+            as it may delay confirmation, VELORA supports Palmpay, 
+            Moniepoint, POS transfers, and all major banks except OPAY
+        </p>
+
+        <button class="thank-you-btn" onclick="closeWelcomeModal()">
+            Understood
+        </button>
+
+    </div>
+
+</div>
+
+
     </div>
 
     <script>
+
+        // Welcome Modal
+
+function closeWelcomeModal(){
+    document
+        .getElementById('welcomeModal')
+        .classList.add('hidden');
+}
+
+
         function copyAccount() {
             const account = document.getElementById('accountNumber').innerText;
             navigator.clipboard.writeText(account).then(() => {
